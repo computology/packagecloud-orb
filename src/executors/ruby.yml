@@ -1,0 +1,6 @@
+parameters:
+  version:
+    type: string
+    default: "2.3-jessie"
+docker:
+  - image: circleci/ruby:<<parameters.version>>

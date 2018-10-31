@@ -1,0 +1,45 @@
+executor:
+  name: ruby
+  version: <<parameters.executor-version>>
+parameters:
+  executor-version:
+    type: string
+    default: "2.3-jessie"
+  repo-fqname:
+    type: string
+    description: |
+      Fully-qualified path to a packagecloud repository -- e.g., example_user/example_repo
+  os-version:
+    type: string
+    description: |
+      Version string associated with a package for pushing/yanking -- e.g., 'ubuntu/bionic' `https://packagecloud.io/docs#os_distro_version`
+  package-path:
+    type: string
+    description: |
+      Path to package(s) to upload into a packagecloud repository
+      When pushing packages, provide a path to the package -- e.g., 'path/to/package/coolpackage_2.1.1_amd64.deb' or 'path/to/*.rpm'
+  build-steps:
+    type: steps
+    default: []
+    description: "Steps to generate artifacts. Alternately provide `workspace-path`"
+  workspace-path:
+    type: string
+    default: ""
+    description: "The key of a workflow workspace. Alternately provide `build-steps`"
+
+steps:
+  - check-api-token
+  - checkout
+  - when:
+      condition: <<parameters.build-steps>>
+      steps: <<parameters.build-steps>>
+  - when:
+      condition: <<parameters.workspace-path>>
+      steps:
+        - attach_workspace:
+            at: <<parameters.workspace-path>>
+  - install
+  - push:
+      repo-fqname: <<parameters.repo-fqname>>
+      os-version: <<parameters.os-version>>
+      package-path: <<parameters.package-path>>

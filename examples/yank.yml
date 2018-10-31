@@ -1,0 +1,12 @@
+version: 2.1
+orbs:
+  packagecloud: packagecloud/packagecloud@dev:0.0.17
+
+workflows:
+  build:
+    jobs:
+      - packagecloud/yank:
+          name: "Yank package"
+          repo-fqname: "armando/test-orb"
+          os-version: "node"
+          package-name: "hello-world-0.0.1.tgz"

@@ -1,0 +1,15 @@
+version: 2.1
+orbs:
+  packagecloud: packagecloud/packagecloud@dev:0.0.17
+
+workflows:
+  build:
+    jobs:
+      - packagecloud/push:
+          executor-version: "2.3.8-jessie-node-browsers"
+          name: "Upload package"
+          repo-fqname: "armando/test-orb"
+          os-version: "node"
+          package-path: "hello-world-0.0.1.tgz"
+          build-steps:
+            - run: npm pack

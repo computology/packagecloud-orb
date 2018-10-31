@@ -1,0 +1,11 @@
+parameters:
+  repo-fqname:
+    type: string
+  os-version:
+    type: string
+  package-name:
+    type: string
+steps:
+  - run:
+      name: Yank packages
+      command: package_cloud yank <<parameters.repo-fqname>>/<<parameters.os-version>> <<parameters.package-name>>

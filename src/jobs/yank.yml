@@ -1,0 +1,24 @@
+executor: ruby
+parameters:
+  repo-fqname:
+    type: string
+    description: |
+      Fully-qualified path to a packagecloud repository -- e.g., 'example_user/example_repo'
+  os-version:
+    type: string
+    description: |
+      Version string associated with a package for yanking -- e.g., 'ubuntu/bionic' `https://packagecloud.io/docs#os_distro_version`
+  package-name:
+    type: string
+    description: |
+      Package name to yank from repository.
+      When yanking a package, pass the full name of the package -- e.g., 'coolpackage_2.1.1_amd64.deb'
+
+steps:
+  - check-api-token
+  - checkout
+  - install
+  - yank:
+      repo-fqname: <<parameters.repo-fqname>>
+      os-version: <<parameters.os-version>>
+      package-name: <<parameters.package-name>>

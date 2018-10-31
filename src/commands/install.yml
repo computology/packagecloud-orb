@@ -1,0 +1,9 @@
+steps:
+  - run:
+      name: Install packagecloud CLI
+      command: |
+        if [[ $(command -v package_cloud) == "" ]]; then
+          gem install package_cloud
+        else
+          echo "packagecloud CLI is already installed."
+        fi

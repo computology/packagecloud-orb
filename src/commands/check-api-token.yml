@@ -1,0 +1,6 @@
+steps:
+  - run:
+      name: Check for packagecloud environment variable
+      command: |
+        : "${PACKAGECLOUD_TOKEN?The PACKAGECLOUD_TOKEN must be set as an environment variable}"
+        echo "Checking for the packagecloud API token"

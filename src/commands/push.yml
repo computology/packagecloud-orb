@@ -1,0 +1,14 @@
+parameters:
+  repo-fqname:
+    type: string
+  os-version:
+    type: string
+  package-path:
+    type: string
+  executor-version:
+    type: string
+    default: "2.3-jessie"
+steps:
+  - run:
+      name: Push packages
+      command: package_cloud push <<parameters.repo-fqname>>/<<parameters.os-version>> <<parameters.package-path>>
