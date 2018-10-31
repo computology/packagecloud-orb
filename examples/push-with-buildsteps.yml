@@ -6,7 +6,10 @@ workflows:
   build:
     jobs:
       - packagecloud/push:
+          executor-version: "2.3.8-jessie-node-browsers"
           name: "Upload package"
           repo-fqname: "armando/test-orb"
           os-version: "node"
-          package-path: "./packages/hello-world-0.0.1.tgz"
+          package-path: "hello-world-0.0.1.tgz"
+          build-steps:
+            - run: npm pack

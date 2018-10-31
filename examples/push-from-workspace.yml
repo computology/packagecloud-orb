@@ -1,0 +1,49 @@
+version: 2.1
+orbs:
+  packagecloud: packagecloud/packagecloud@dev:0.0.17
+
+defaults: &defaults
+  working_directory: ~/repo
+  docker:
+    - image: circleci/node:8.9.1
+
+jobs:
+  test:
+    <<: *defaults  
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+          - v1-dependencies-
+
+      - run: npm install
+      - run:
+          name: Run tests
+          command: npm test
+
+      - run:
+          name: Build package
+          command: npm pack
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+
+      - persist_to_workspace:
+          root: ~/repo
+          paths: .
+            
+workflows:
+  build:
+    jobs:
+      - test
+      - packagecloud/push:
+          repo-fqname: "armando/test-orb"
+          os-version: "node"
+          package-path: "./hello-world-0.1.3.tgz"
+          workspace-path: "."
+          requires:
+            - test
