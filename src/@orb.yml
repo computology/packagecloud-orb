@@ -1,3 +1,6 @@
 version: 2.1
 description: |
-  The packagecloud orb handles common tasks for interacting with repositories on packagecloud
+  The packagecloud orb handles common tasks for interacting with repositories on packagecloud.
+  To use this orb and interact with the packagecloud CLI, an environment variable *must* be
+  created in the CircleCI project settings with the name `PACKAGECLOUD_TOKEN` containing the
+  value of a packagecloud API token. The CLI will read the PACKAGECLOUD_TOKEN by default.
